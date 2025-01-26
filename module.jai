@@ -14,6 +14,12 @@ array_copy :: (a: [$N] $T, b: [N] T) {
     memcpy(a.data, b.data, N * size_of(T));
 }
 
+array_reverse :: (array: [] $T) {
+    for 0..array.count/2-1 {
+        Swap(*(array[it]), *(array[array.count-1-it]));
+    }
+}
+
 pointer_diff :: (a: *$T, b: *$U) -> s64 #expand {
     return cast(s64)((cast(*u8) a) - (cast(*u8) b));
 }

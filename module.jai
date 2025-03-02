@@ -1,3 +1,7 @@
+floor :: (v: Vector2) -> Vector2 {
+    return .{ floor(v.x), floor(v.y) };
+}
+
 array_fill_byte :: (array: [] $T, value: u8) {
     memset(array.data, value, size_of(T) * array.count);
 }
@@ -62,3 +66,4 @@ get_identifier_name :: (name: Code) -> string {
 #scope_file
 
 #import "Basic";
+#import "Math";

@@ -1,3 +1,22 @@
+Vector2i :: struct { x: s64; y: s64; };
+operator == :: (a: Vector2i, b: Vector2i) -> bool {
+    return a.x == b.x && a.y == b.y;
+}
+operator + :: (a: Vector2i, b: Vector2i) -> Vector2i {
+    return .{a.x+b.x, a.y+b.y};
+}
+operator * :: (a: Vector2i, b: Vector2i) -> Vector2i {
+    return .{a.x*b.x, a.y*b.y};
+}
+
+make_vector2i :: (v: Vector2) -> Vector2i {
+    return .{ xx floor(v.x), xx floor(v.y) };
+}
+
+make_vector2 :: (v: Vector2i) -> Vector2 {
+    return .{ xx v.x, xx v.y };
+}
+
 floor :: (v: Vector2) -> Vector2 {
     return .{ floor(v.x), floor(v.y) };
 }

@@ -21,6 +21,14 @@ floor :: (v: Vector2) -> Vector2 {
     return .{ floor(v.x), floor(v.y) };
 }
 
+round :: (f: float) -> float {
+    return floor(f + 0.5);
+}
+
+round :: (v: Vector2) -> Vector2 {
+    return .{ floor(v.x + 0.5), floor(v.y + 0.5) };
+}
+
 array_fill_byte :: (array: [] $T, value: u8) {
     memset(array.data, value, size_of(T) * array.count);
 }

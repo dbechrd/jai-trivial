@@ -81,6 +81,24 @@ hexval :: (c: u8) -> int {
     return -1;
 }
 
+log :: (str: string, loc := #caller_location, flags := Log_Flags.NONE, user_flags : u32 = 0, section : *Log_Section = null) {
+    builder: String_Builder;
+
+    print_to_builder(*builder, str);
+
+    s := builder_to_string(*builder,, allocator = __temporary_allocator);
+    if !s.count return;
+
+    info: Log_Info;
+    info.source_identifier = context.log_source_identifier;
+    info.location          = loc;
+    info.common_flags      = flags;
+    info.user_flags        = user_flags;
+    info.section           = section;
+
+    context.logger(s, context.logger_data, info);
+}
+
 log_warning :: (format_string: string, args: .. Any, loc := #caller_location, flags := Log_Flags.NONE, user_flags : u32 = 0, section : *Log_Section = null) {
     new_flags := flags | .WARNING;
     log(format_string, ..args, loc, new_flags, user_flags, section);

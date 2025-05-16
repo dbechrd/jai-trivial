@@ -9,6 +9,10 @@ operator * :: (a: Vector2i, b: Vector2i) -> Vector2i {
     return .{a.x*b.x, a.y*b.y};
 }
 
+make_vector2i :: (x: s64, y: s64) -> Vector2i {
+    return .{ x, y };
+}
+
 make_vector2i :: (v: Vector2) -> Vector2i {
     return .{ xx floor(v.x), xx floor(v.y) };
 }

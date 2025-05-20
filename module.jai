@@ -33,6 +33,28 @@ round :: (v: Vector2) -> Vector2 {
     return .{ floor(v.x + 0.5), floor(v.y + 0.5) };
 }
 
+move_toward :: (f: *float, target: float, dt: float, rate_up: float, rate_down: float = -1.0) {
+    value := f.*;
+
+    if value > target {
+        if rate_down == -1 rate_down = rate_up;
+        value -= dt * rate_down;
+        if value < target then value = target;
+    } else if value < target {
+        value += dt * rate_up;
+        if value > target then value = target;
+    }
+
+    f.* = value;
+}
+
+move_toward_smooth :: (v: *Vector2, target: Vector2, dt: float, rate: float) {
+    dx := abs(target.x - v.x) * rate;
+    dy := abs(target.y - v.y) * rate;
+    move_toward(*v.x, target.x, dt, dx);
+    move_toward(*v.y, target.y, dt, dy);
+}
+
 array_fill_byte :: (array: [] $T, value: u8) {
     memset(array.data, value, size_of(T) * array.count);
 }

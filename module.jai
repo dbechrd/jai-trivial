@@ -5,6 +5,9 @@ operator == :: (a: Vector2i, b: Vector2i) -> bool {
 operator + :: (a: Vector2i, b: Vector2i) -> Vector2i {
     return .{a.x+b.x, a.y+b.y};
 }
+operator - :: (a: Vector2i, b: Vector2i) -> Vector2i {
+    return .{a.x-b.x, a.y-b.y};
+}
 operator * :: (a: Vector2i, b: Vector2i) -> Vector2i {
     return .{a.x*b.x, a.y*b.y};
 }

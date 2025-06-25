@@ -36,7 +36,7 @@ round :: (v: Vector2) -> Vector2 {
     return .{ floor(v.x + 0.5), floor(v.y + 0.5) };
 }
 
-move_toward :: (f: *float, target: float, dt: float, rate_up: float, rate_down: float = -1.0) {
+move_toward :: (f: *float, target: float, dt: float, rate_up: float, rate_down := -1.0) {
     value := f.*;
 
     if value > target {
@@ -49,6 +49,11 @@ move_toward :: (f: *float, target: float, dt: float, rate_up: float, rate_down: 
     }
 
     f.* = value;
+}
+
+move_toward_smooth :: (f: *float, target: float, dt: float, rate: float) {
+    delta := abs(target - f.*) * rate;
+    move_toward(f, target, dt, delta);
 }
 
 move_toward_smooth :: (v: *Vector2, target: Vector2, dt: float, rate: float) {

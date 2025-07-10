@@ -138,6 +138,22 @@ log_warning :: (format_string: string, args: .. Any, loc := #caller_location, fl
     log(format_string, ..args, loc, new_flags, user_flags, section);
 } @PrintLike
 
+enum_to_string :: (value: $T) -> string {
+    info_enum := type_info(T);
+    for info_enum.values if it == xx value {
+        return info_enum.names[it_index];
+    }
+    return "";
+}
+
+string_to_enum :: (name: string, $T: Type) -> success: bool, result: T {
+    info_enum := type_info(T);
+    for info_enum.names if it == name {
+        return true, xx info_enum.values[it_index];
+    }
+    return false, -1;
+}
+
 get_identifier_name :: (name: Code) -> string {
     #import "Compiler";
 

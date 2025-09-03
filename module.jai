@@ -28,6 +28,10 @@ floor :: (v: Vector2) -> Vector2 {
     return .{ floor(v.x), floor(v.y) };
 }
 
+ceil :: (v: Vector2) -> Vector2 {
+    return .{ ceil(v.x), ceil(v.y) };
+}
+
 round :: (f: float) -> float {
     return floor(f + 0.5);
 }
@@ -61,6 +65,26 @@ move_toward_smooth :: (v: *Vector2, target: Vector2, dt: float, rate: float) {
     dy := abs(target.y - v.y) * rate;
     move_toward(*v.x, target.x, dt, dx);
     move_toward(*v.y, target.y, dt, dy);
+}
+
+letterbox :: (size: Vector2, box: Vector2, power_of_two := false) -> boxed_size: Vector2, scale: float {
+    scale := 1.0;
+    scale = min(scale, box.x / size.x);
+    scale = min(scale, box.y / size.y);
+    if power_of_two {
+        pow := 1.0;
+        while pow > scale {
+            pow *= 0.5;
+        }
+        scale = pow;
+    }
+
+    boxed_size := size;
+    if scale < 1.0 {
+        boxed_size.x = floor(size.x * scale);
+        boxed_size.y = floor(size.y * scale);
+    }
+    return boxed_size, scale;
 }
 
 array_fill_byte :: (array: [] $T, value: u8) {

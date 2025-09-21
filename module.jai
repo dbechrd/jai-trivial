@@ -99,8 +99,17 @@ array_equal :: (a: [$N] $T, b: [N] T) -> bool {
     return !memcmp(a.data, b.data, a.count);
 }
 
-array_copy :: (a: [$N] $T, b: [N] T) {
+array_copy :: inline (a: [$N] $T, b: [N] T) #deprecated "Use array_copy_data() instead." {
+    array_copy_data(a, b);
+}
+
+array_copy_data :: (a: [$N] $T, b: [N] T) {
     memcpy(a.data, b.data, N * size_of(T));
+}
+
+array_copy_data :: (a: [] $T, b: [] T) {
+    assert(a.count >= b.count);
+    memcpy(a.data, b.data, b.count * size_of(T));
 }
 
 array_reverse :: (array: [] $T) {

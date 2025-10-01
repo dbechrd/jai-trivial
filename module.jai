@@ -148,6 +148,18 @@ hexval :: (c: u8) -> int {
     return -1;
 }
 
+GB :: (gigabytes: u64) -> u64 #expand {
+    return gigabytes*1024*1024*1024;
+}
+
+MB :: (megabytes: u64) -> u64 #expand {
+    return megabytes*1024*1024;
+}
+
+KB :: (kilobytes: u64) -> u64 #expand {
+    return kilobytes*1024;
+}
+
 human_readable_bytes :: (bytes: u64, trailing_width := 1) -> string {
     builder: String_Builder;
 

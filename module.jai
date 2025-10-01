@@ -148,6 +148,32 @@ hexval :: (c: u8) -> int {
     return -1;
 }
 
+human_readable_bytes :: (bytes: u64, trailing_width := 1) -> string {
+    builder: String_Builder;
+
+    formatter := FormatFloat.{
+        trailing_width=trailing_width,
+        zero_removal=.NO
+    };
+
+    if bytes >= 1024*1024*1024 {
+        formatter.value = bytes/(1024.0*1024.0*1024.0);
+        print_to_builder(*builder, "% GB", formatter);
+    } else if bytes >= 1024*1024 {
+        formatter.value = bytes/(1024.0*1024.0);
+        print_to_builder(*builder, "% MB", formatter);
+    } else if bytes >= 1024 {
+        formatter.value = bytes/(1024.0);
+        print_to_builder(*builder, "% KB", formatter);
+    } else {
+        formatter.value = bytes.(float);
+        print_to_builder(*builder, "% B", formatter);
+    }
+
+    str := builder_to_string(*builder);
+    return str;
+}
+
 log :: (str: string, loc := #caller_location, flags := Log_Flags.NONE, user_flags : u32 = 0, section : *Log_Section = null) {
     builder: String_Builder;
 
@@ -166,7 +192,7 @@ log :: (str: string, loc := #caller_location, flags := Log_Flags.NONE, user_flag
     context.logger(s, context.logger_data, info);
 }
 
-log_warning :: (format_string: string, args: .. Any, loc := #caller_location, flags := Log_Flags.NONE, user_flags : u32 = 0, section : *Log_Section = null) {
+log_warning :: (format_string: string, args: ..Any, loc := #caller_location, flags := Log_Flags.NONE, user_flags : u32 = 0, section : *Log_Section = null) {
     new_flags := flags | .WARNING;
     log(format_string, ..args, loc, new_flags, user_flags, section);
 } @PrintLike

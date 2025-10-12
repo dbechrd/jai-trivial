@@ -114,7 +114,7 @@ array_copy_data :: (a: [] $T, b: [] T) {
 
 array_reverse :: (array: [] $T) {
     for 0..array.count/2-1 {
-        Swap(*(array[it]), *(array[array.count-1-it]));
+        swap(*(array[it]), *(array[array.count-1-it]));
     }
 }
 

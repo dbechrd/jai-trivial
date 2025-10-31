@@ -209,6 +209,7 @@ log_warning :: (format_string: string, args: ..Any, loc := #caller_location, fla
     log(format_string, ..args, loc, new_flags, user_flags, section);
 } @PrintLike
 
+// WARN(perf): This is O(n) on the # of values in the enum!
 enum_to_string :: (value: $T) -> string {
     info_enum := type_info(T);
     for info_enum.values if it == xx value {
@@ -217,6 +218,7 @@ enum_to_string :: (value: $T) -> string {
     return "";
 }
 
+// WARN(perf): This is O(n) on the # of values in the enum!
 string_to_enum :: (name: string, $T: Type) -> success: bool, result: T {
     info_enum := type_info(T);
     for info_enum.names if it == name {

@@ -227,6 +227,13 @@ string_to_enum :: (name: string, $T: Type) -> success: bool, result: T {
     return false, -1;
 }
 
+push_logger :: (logger: Logger) #expand #no_debug {
+    old_logger     := context.logger;
+    context.logger  = logger;
+
+    `defer context.logger = old_logger;
+}
+
 get_identifier_name :: (name: Code) -> string {
     #import "Compiler";
 

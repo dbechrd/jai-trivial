@@ -12,6 +12,9 @@ operator * :: (a: Vector2i, b: Vector2i) -> Vector2i {
     return .{a.x*b.x, a.y*b.y};
 }
 
+Vector2iHash :: (hex: Vector2i) -> u32 { return sdbm_hash(*hex, size_of(Vector2i)); }
+Vector2iEqual :: #procedure_of_call(operator==(Vector2i.{}, Vector2i.{}));
+
 make_vector2i :: (x: s64, y: s64) -> Vector2i {
     return .{ x, y };
 }
@@ -251,3 +254,4 @@ get_identifier_name :: (name: Code) -> string {
 
 #import "Basic";
 #import "Math";
+#import "Hash";

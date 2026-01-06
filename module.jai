@@ -1,7 +1,8 @@
 Vector2i :: struct { x: s64; y: s64; };
-operator == :: (a: Vector2i, b: Vector2i) -> bool {
+Vector2iEqual :: (a: Vector2i, b: Vector2i) -> bool {
     return a.x == b.x && a.y == b.y;
 }
+operator== :: Vector2iEqual;
 operator + :: (a: Vector2i, b: Vector2i) -> Vector2i {
     return .{a.x+b.x, a.y+b.y};
 }
@@ -13,7 +14,6 @@ operator * :: (a: Vector2i, b: Vector2i) -> Vector2i {
 }
 
 Vector2iHash :: (hex: Vector2i) -> u32 { return sdbm_hash(*hex, size_of(Vector2i)); }
-Vector2iEqual :: #procedure_of_call(operator==(Vector2i.{}, Vector2i.{}));
 
 make_vector2i :: (x: s64, y: s64) -> Vector2i {
     return .{ x, y };

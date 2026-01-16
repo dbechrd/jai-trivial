@@ -12,6 +12,15 @@ operator - :: (a: Vector2i, b: Vector2i) -> Vector2i {
 operator * :: (a: Vector2i, b: Vector2i) -> Vector2i {
     return .{a.x*b.x, a.y*b.y};
 }
+operator / :: (a: Vector2i, b: Vector2i) -> Vector2i {
+    return .{a.x/b.x, a.y/b.y};
+}
+operator * :: (a: Vector2i, b: s64) -> Vector2i {
+    return .{a.x*b, a.y*b};
+}
+operator / :: (a: Vector2i, b: s64) -> Vector2i {
+    return .{a.x/b, a.y/b};
+}
 
 Vector2iHash :: (hex: Vector2i) -> u32 { return sdbm_hash(*hex, size_of(Vector2i)); }
 

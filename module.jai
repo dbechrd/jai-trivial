@@ -130,6 +130,32 @@ array_reverse :: (array: [] $T) {
     }
 }
 
+//-- Queue-like interface for arrays ------------------------------------------
+push_front :: (queue: *[..] $T, item: T) {
+    array_insert_at(queue, item, 0);
+}
+
+push_back :: (queue: *[..] $T, item: T) {
+    array_insert_at(queue, item, queue.count);
+}
+
+pop_front :: (queue: *[] $T) -> T {
+    assert(queue.count > 0);
+
+    value := queue.*[0];
+    array_ordered_remove_by_index(queue, 0);
+    return value;
+}
+
+pop_back :: (queue: *[] $T) -> T {
+    assert(queue.count > 0);
+
+    value := queue.*[queue.count-1];
+    array_ordered_remove_by_index(queue, queue.count-1);
+    return value;
+}
+//-----------------------------------------------------------------------------
+
 append :: (builder: *String_Builder, value: int) {
     print_integer(builder, .{value=value});
 }

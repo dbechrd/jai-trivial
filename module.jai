@@ -3,23 +3,33 @@ Vector2iEqual :: (a: Vector2i, b: Vector2i) -> bool {
     return a.x == b.x && a.y == b.y;
 }
 operator== :: Vector2iEqual;
+
 operator + :: (a: Vector2i, b: Vector2i) -> Vector2i {
     return .{a.x+b.x, a.y+b.y};
 }
+
 operator - :: (a: Vector2i, b: Vector2i) -> Vector2i {
     return .{a.x-b.x, a.y-b.y};
+}
+
+operator * :: (a: Vector2i, b: s64) -> Vector2i {
+    return .{a.x*b, a.y*b};
 }
 operator * :: (a: Vector2i, b: Vector2i) -> Vector2i {
     return .{a.x*b.x, a.y*b.y};
 }
+operator * :: (a: Vector2i, b: Vector2) -> Vector2 #symmetric {
+    return .{a.x*b.x, a.y*b.y};
+}
+
+operator / :: (a: Vector2i, b: s64) -> Vector2i {
+    return .{a.x/b, a.y/b};
+}
 operator / :: (a: Vector2i, b: Vector2i) -> Vector2i {
     return .{a.x/b.x, a.y/b.y};
 }
-operator * :: (a: Vector2i, b: s64) -> Vector2i {
-    return .{a.x*b, a.y*b};
-}
-operator / :: (a: Vector2i, b: s64) -> Vector2i {
-    return .{a.x/b, a.y/b};
+operator / :: (a: Vector2i, b: Vector2) -> Vector2 #symmetric {
+    return .{a.x/b.x, a.y/b.y};
 }
 
 Vector2iHash :: (hex: Vector2i) -> u32 { return sdbm_hash(*hex, size_of(Vector2i)); }
@@ -97,6 +107,15 @@ letterbox :: (size: Vector2, box: Vector2, power_of_two := false) -> boxed_size:
         boxed_size.y = floor(size.y * scale);
     }
     return boxed_size, scale;
+}
+
+offset_of :: ($T: Type, $member: string) -> int {
+    for type_info(T).members {
+        if it.name == member return it.offset_in_bytes;
+    }
+
+    assert(false, "Type '%' does not have member '%'", T, member);
+    return -1;
 }
 
 array_fill_byte :: (array: [] $T, value: u8) {
@@ -229,7 +248,7 @@ log :: (str: string, loc := #caller_location, flags := Log_Flags.NONE, user_flag
 
     print_to_builder(*builder, str);
 
-    s := builder_to_string(*builder,, allocator = __temporary_allocator);
+    s := builder_to_string(*builder,, temp);
     if !s.count return;
 
     info: Log_Info;
